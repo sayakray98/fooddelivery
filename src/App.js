@@ -1,23 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from './common/header/Header';
+import Navbar from './common/header/Navbar';
+import Home from './components/homepge/Home';
+import Cart from './components/homepge/Cart';
+import Login from './common/header/Login';
+import { AppProvider } from './components/AppContext';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
+  const userName = localStorage.getItem('userName');
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AppProvider>
+        <Router>
+          <Header  /> {/* Pass userName as a prop to Header */}
+          <Routes>
+            <Route path="/" element={<Home userName={userName} />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
+        </Router>
+      </AppProvider>
     </div>
   );
 }
