@@ -4,7 +4,7 @@ import Search from './Serach'; // Make sure the import is correct
 import { AppContext } from '../../components/AppContext';
 
 export default function Navbar(props) {
-    const { userName, handleInputChange, handleClickOnSearch, searchValue, handleOnClick, selectedCategory } = props;
+    const { userName, handleInputChange, handleClickOnSearch, searchValue, } = props;
     const { count } = useContext(AppContext)
     const handleLogout = () => {
         localStorage.removeItem('token');

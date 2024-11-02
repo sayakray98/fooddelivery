@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function Currentmeal(props) {
-const nav = document.getElementsByClassName('nav')[0];
+
     const onhandleNext = () => {
         var currentmeal = document.getElementsByClassName('currentmealall')[0];
         currentmeal.scrollLeft += 350;

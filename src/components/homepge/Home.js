@@ -3,7 +3,6 @@ import './Home.css';
 
 import Filterpopup from './Filterpopup';
 import Navbar from '../../common/header/Navbar';
-import Serach from '../../common/header/Serach';
 import Currentmeal from './Currentmeal';
 import { AppContext } from '../AppContext';
 
