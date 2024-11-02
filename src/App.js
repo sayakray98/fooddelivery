@@ -1,6 +1,5 @@
 import './App.css';
 import Header from './common/header/Header';
-import Navbar from './common/header/Navbar';
 import Home from './components/homepge/Home';
 import Cart from './components/homepge/Cart';
 import Login from './common/header/Login';

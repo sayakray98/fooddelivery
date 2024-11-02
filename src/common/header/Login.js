@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,} from 'react';
 import axios from 'axios'; // Import axios
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirecting
 import './Login.css';
@@ -79,34 +79,34 @@ export default function Login() {
         }
     };
 
-    const [latitude, setLatitude] = useState('');
-    const [longitude, setLongitude] = useState('');
+    // const [latitude, setLatitude] = useState('');
+    // const [longitude, setLongitude] = useState('');
   
-    const API_key = "ed131ad1-ed8c-4b1a-9ccb-156a11656840";
+    // const API_key = "ed131ad1-ed8c-4b1a-9ccb-156a11656840";
   
-    useEffect(() => {
-      navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position);
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
+    // useEffect(() => {
+    //   navigator.geolocation.getCurrentPosition((position) => {
+    //     console.log(position);
+    //     const lat = position.coords.latitude;
+    //     const lon = position.coords.longitude;
         
-        setLatitude(lat);
-        setLongitude(lon);
+    //     setLatitude(lat);
+    //     setLongitude(lon);
   
-        console.log(lat, lon);
+    //     console.log(lat, lon);
   
-        // Make API call after coordinates are set
-        const finalApiEndPoint = `https://api.ipfind.com/me?lat=${lat}&lon=${lon}&auth=${API_key}`;
+    //     // Make API call after coordinates are set
+    //     const finalApiEndPoint = `https://api.ipfind.com/me?lat=${lat}&lon=${lon}&auth=${API_key}`;
   
-        axios.get(finalApiEndPoint)
-          .then((response) => {
-            console.log(response.data);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      });
-    }, [API_key])
+    //     axios.get(finalApiEndPoint)
+    //       .then((response) => {
+    //         console.log(response.data);
+    //       })
+    //       .catch((error) => {
+    //         console.log(error);
+    //       });
+    //   });
+    // }, [API_key])
 
 
 

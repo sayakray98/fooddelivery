@@ -1,5 +1,5 @@
 import React from 'react'
-import Headercss from '../header/Headers.css'
+import  '../header/Headers.css'
 export default function Header() {
     return (
         <div className='uphead pt-2'>
