@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import './Home.css';
 export default function Filterpopup(props) {
     let oncrossclick = () => {
