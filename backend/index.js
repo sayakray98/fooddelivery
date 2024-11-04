@@ -11,7 +11,9 @@ connectToMongoose();
 app.use(express.json());
 
 // Enable CORS for all origins
-app.use(cors()); // Use cors middleware
+app.use(cors({
+  origin: 'https://fooddelivery-zhoa.vercel.app'
+}));
 
 // Routes
 app.use('/auth', require('./routes/auth'));
