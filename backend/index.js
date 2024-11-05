@@ -1,32 +1,24 @@
 const connectToMongoose = require('./db');
 const express = require('express');
-const cors = require('cors');
+const cors = require('cors'); // Import cors
 const app = express();
-const port = process.env.PORT || 4000;
-const allowedOrigin = process.env.ALLOWED_ORIGIN || 'https://fooddelivery-zhoa.vercel.app';
+const port = 4000;
 
-// Connect to the database with error handling
-connectToMongoose().catch(error => {
-  console.error('Failed to connect to MongoDB:', error);
-  process.exit(1); // Exit if the database connection fails
-});
+// Connect to the database
+connectToMongoose();
 
 // Middleware to parse JSON
 app.use(express.json());
 
-// Enable CORS for the specified origin
+// Enable CORS for all origins
 app.use(cors({
-  origin: allowedOrigin
+  origin: 'https://fooddelivery-zhoa.vercel.app'
 }));
 
 // Routes
 app.use('/auth', require('./routes/auth'));
 
-// Start the server with error handling
-app.listen(port, (err) => {
-  if (err) {
-    console.error('Failed to start server:', err);
-    process.exit(1); // Exit if the server fails to start
-  }
-  console.log(`Example app listening at http://localhost:${port}`);
+// Start the server
+app.listen(port, () => {
+  console.log(Example app listening on port http://localhost:${port});
 });
