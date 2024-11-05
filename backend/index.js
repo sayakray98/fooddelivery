@@ -15,6 +15,9 @@ app.use(cors({
   origin: 'https://fooddelivery-zhoa.vercel.app'
 }));
 
+app.get('/', (req, res) => {
+  res.send("Hello, World!");
+});
 // Routes
 app.use('/auth', require('./routes/auth'));
 
