@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const MONOGODB_USERNAME = 'djssrock93';
-const MONGODB_PASSWORD = 'Sayak1234@@';
+const MONOGODB_USERNAME = process.env.MONGODB_USERNAME;
+const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD;
 
 async function connectToMongoose() {
     try {
