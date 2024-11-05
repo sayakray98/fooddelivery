@@ -23,5 +23,7 @@ app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`);
 });
 app.get('/', (req, res) => {
+  console.log("Root route accessed");
   res.send('Server is running');
 });
+
