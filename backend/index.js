@@ -2,28 +2,43 @@ const connectToMongoose = require('./db');
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 4000;
+const port = process.env.PORT || 4000; // Allow for dynamic port assignment
 
 // Connect to the database
 connectToMongoose();
 
-// Middleware to parse JSON
+// Middleware
 app.use(express.json());
 
-// Enable CORS for the specified origin
+// Configure CORS to accept requests from multiple origins
 app.use(cors({
-  origin: 'https://fooddelivery-zhoa.vercel.app'
+    origin: [
+        'https://fooddelivery-zhoa.vercel.app',
+        'https://fooddelivery-ae8z-7u5thp7g0-sayak-rays-projects.vercel.app',
+        process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : ''
+    ].filter(Boolean),
+    credentials: true
 }));
+
+// Health check route
+app.get('/', (req, res) => {
+    res.status(200).json({ status: 'Server is running' });
+});
 
 // Routes
 app.use('/auth', require('./routes/auth'));
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`);
-});
-app.get('/', (req, res) => {
-  console.log("Root route accessed");
-  res.send('Server is running');
+// Error handling middleware
+app.use((req, res, next) => {
+    res.status(404).json({ error: 'Not Found' });
 });
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Internal Server Error' });
+});
+
+// Start the server
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Server is running on port ${port}`);
+});
