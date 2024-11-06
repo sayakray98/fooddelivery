@@ -5,32 +5,41 @@ const connectToMongoose = require('./db');
 
 const app = express();
 
+// CORS Configuration
+const corsOptions = {
+    origin: ['https://fooddelivery-zhoa.vercel.app', 'http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+    credentials: true,
+    maxAge: 86400 // 24 hours
+};
+
+// Apply CORS middleware
+app.use(cors(corsOptions));
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
+
 // Middleware
 app.use(express.json());
-app.use(cors({
-    origin: process.env.FRONTEND_URL || 'https://fooddelivery-zhoa.vercel.app',
-    credentials: true
-}));
 
-// Test route to verify database connection
-app.get('/api/test', async (req, res) => {
-    try {
-        await connectToMongoose();
-        const collections = await mongoose.connection.db.listCollections().toArray();
-        res.json({ 
-            status: 'success', 
-            message: 'Connected to MongoDB successfully',
-            database: 'fooddelivery',
-            collections: collections.map(c => c.name)
-        });
-    } catch (error) {
-        console.error('Test endpoint error:', error);
-        res.status(500).json({ 
-            status: 'error', 
-            message: 'Failed to connect to database',
-            error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
-        });
+// Add headers middleware
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    
+    // Handle preflight
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
     }
+    next();
+});
+
+// Test route
+app.get('/test', (req, res) => {
+    res.json({ message: 'Server is working' });
 });
 
 // Health check route
