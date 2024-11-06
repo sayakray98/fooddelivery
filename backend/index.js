@@ -64,8 +64,7 @@ app.use((err, req, res, next) => {
     });
 });
 
-<<<<<<< HEAD
+
 module.exports = app;
-=======
-module.exports = app;
->>>>>>> bf87f75 (first commit)
+
+
