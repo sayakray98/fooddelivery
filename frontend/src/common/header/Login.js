@@ -41,7 +41,7 @@ export default function Login() {
         e.preventDefault();
         try {
             const response = await axios.post(
-                'https://fooddelivery-ae8z.vercel.app/auth/createuser',
+                'http://localhost:8080/auth/createuser',
                 JSON.stringify(formData),
                 {
                     headers: {
@@ -59,7 +59,7 @@ export default function Login() {
         e.preventDefault();
         try {
             const response = await axios.post(
-                'https://fooddelivery-ae8z.vercel.app/auth/login',
+                'http://localhost:8080/auth/login',
                 JSON.stringify(loginData),
                 {
                     headers: {
