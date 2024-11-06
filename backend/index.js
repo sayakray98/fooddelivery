@@ -1,27 +1,57 @@
-require('dotenv').config(); // Load environment variables
-const connectToMongoose = require('../db'); // Adjust the path based on your structure
+require('dotenv').config();
 const express = require('express');
-const cors = require('cors'); // Import cors
+const cors = require('cors');
+const mongoose = require('mongoose');
 const app = express();
 
-// Connect to the database
-connectToMongoose();
-
-// Middleware to parse JSON
+// Middleware
 app.use(express.json());
-
-// Enable CORS for specified origin
 app.use(cors({
-  origin: 'https://fooddelivery-zhoa.vercel.app'
+  origin: process.env.FRONTEND_URL || 'https://fooddelivery-zhoa.vercel.app',
+  credentials: true
 }));
 
-// Define a simple GET route for the root path
+// Database connection
+const connectToDatabase = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('Connected to MongoDB');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    process.exit(1);
+  }
+};
+
+// Connect to database
+connectToDatabase();
+
+// Basic error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ 
+    success: false, 
+    error: 'Something went wrong!' 
+  });
+});
+
+// Health check route
 app.get('/', (req, res) => {
-  res.send("Hello, World!");
+  res.json({ status: 'Server is running' });
 });
 
 // Routes
-app.use('/auth', require('./routes/auth')); // Adjust the path if necessary
+app.use('/api/auth', require('./routes/auth'));
 
-// Export the app for Vercel to use it as a serverless function
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ 
+    success: false, 
+    error: 'Route not found' 
+  });
+});
+
+// Export the app
 module.exports = app;
