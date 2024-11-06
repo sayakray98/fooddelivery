@@ -6,7 +6,15 @@ const { body, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const fetchuser = require('../middleware/fetchuser');
 const JWT_TOKEN = "shhhhh";
-
+const cors = require('cors');
+router.use(cors(corsOptions));
+// CORS options for auth routes
+const corsOptions = {
+    origin: ['https://fooddelivery-zhoa.vercel.app', 'http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+};
 // ROUTE 1: Create a User using: POST "/api/auth/createuser". No login required
 router.post(
     '/createuser',
@@ -17,6 +25,9 @@ router.post(
         body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
     ],
     async (req, res) => {
+
+        res.header('Access-Control-Allow-Origin', req.headers.origin);
+        res.header('Access-Control-Allow-Credentials', 'true');
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
