@@ -1,18 +1,17 @@
-const express = require('express')
-const app = express()
-const PORT = 8080
-const connectToMongoose = require('./db')
-var cors = require('cors')
+const express = require('express');
+const app = express();
+const connectToMongoose = require('./db');
+const cors = require('cors');
 
-connectToMongoose()
+// Connect to MongoDB
+connectToMongoose();
 
+// Middleware
 app.use(express.json());
+app.use(cors());
 
-// Enable CORS for all origins
-app.use(cors())
 // Routes
 app.use('/auth', require('./routes/auth'));
 
-app.listen(PORT, () => {
-    console.log(`Your host http://localhost:${PORT}`)
-})
+// Export the app (Vercel will use this as a serverless function)
+module.exports = app;
